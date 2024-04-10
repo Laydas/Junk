@@ -1,0 +1,92 @@
+esphome:
+  name: chandelier
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: ""
+
+ota:
+  password: ""
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: 
+    gateway: 
+    subnet: 
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ""
+    password: ""
+
+output:
+  - platform: ledc
+    pin: GPIO19
+    id: gpio_19
+  - platform: ledc
+    pin: GPIO23
+    id: gpio_23
+  - platform: ledc
+    pin: GPIO21
+    id: gpio_21
+
+light:
+  - platform: monochromatic
+    name: tube_1
+    id: tube_1
+    output: gpio_19
+    effects:
+      - pulse:
+      - pulse:
+          name: "Offset Pulse"
+          update_interval: 7s
+          transition_length: 7s
+      - pulse:
+          name: "Synced Pulse"
+          update_interval: 6s
+          transition_length: 6s
+          min_brightness: 10%
+      - random:
+  - platform: monochromatic
+    name: tube_2
+    id: tube_2
+    output: gpio_21
+    effects:
+      - pulse:
+      - pulse:
+          name: "Offset Pulse"
+          update_interval: 10s
+          transition_length: 10s
+      - pulse:
+          name: "Synced Pulse"
+          update_interval: 6s
+          transition_length: 6s
+          min_brightness: 10%
+      - random:
+  - platform: monochromatic
+    name: tube_3
+    id: tube_3
+    output: gpio_23
+    effects:
+      - pulse:
+      - pulse:
+          name: "Offset Pulse"
+          update_interval: 13s
+          transition_length: 13s
+      - pulse:
+          name: "Synced Pulse"
+          update_interval: 6s
+          transition_length: 6s
+          min_brightness: 10%
+      - random:
